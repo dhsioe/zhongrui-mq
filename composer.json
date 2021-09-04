@@ -1,0 +1,22 @@
+{
+    "name": "zhongrui/mq",
+    "description": "mq center for zrhz",
+    "authors": [
+      {
+        "name": "hsioe1111@gmail.com"
+      }
+    ],
+    "require": {
+      "php": ">=7.3",
+      "php-amqplib/php-amqplib": "^3.0"
+    },
+    "autoload": {
+      "psr-4": {
+        "Zhongrui\\Mq\\": "src/",
+        "Zhongrui\\Mq\\Tests\\": "tests/"
+      }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
