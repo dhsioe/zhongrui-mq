@@ -45,16 +45,18 @@ class ZhongruiMq
     public function produce(ProduceMessageInterface $produce, bool $confirm = false, $timeout = 3)
     {
         $result = false;
+
         $message = new AMQPMessage($produce->payload(), $produce->getProperties());
+
         try {
             $channel = $confirm? $this->factory->getConfirmChannel():
                                  $this->factory->getChannel();
             $channel->exchange_declare($produce->getExchange(), $produce->getType(), false, false, false);
             $channel->basic_publish($message, $produce->getExchange(), $produce->getRouteKey());
-            $channel->set_ack_handler(function (&$result){
-                 $result=true;
+            $channel->set_ack_handler(function () use (&$result){
+                 $result = true;
             });
-            $channel->wait_for_pending_acks($timeout); 
+            $channel->wait_for_pending_acks_returns($timeout); 
         } catch(\Exception $e){
             isset($channel) && $channel->close();
             throw $e;
