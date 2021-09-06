@@ -7,9 +7,11 @@
 */
 namespace Zhongrui\Mq;
 
+use Exception;
 use PhpAmqpLib\Message\AMQPMessage;
 use Zhongrui\Mq\MqConnection;
 use Zhongrui\Mq\Message\ProduceMessageInterface;
+use Zhongrui\Mq\Message\RpcMessageInterface;
 
 class ZhongruiMq
 {
@@ -65,6 +67,37 @@ class ZhongruiMq
         }
 
         return $result;
+    }
+
+    /**
+     * Rpc远程调用
+     * @param  RpcMessageInterface    $produce  远程调用生产者
+     * @param  int                    $timeout  超时 默认3s
+     * @return mixed
+    */
+    public function rpcProduce(RpcMessageInterface $produce, int $timeout = 1)
+    {
+        $channel = $this->factory->getChannel();
+        $channel->queue_declare($produce->getQueue(), false, false, true, false);
+        $channel->basic_consume($produce->getQueue(), 
+            '', false, false, false, false, [$produce, 'onResponse']);
+
+        $message = new AMQPMessage($produce->encodeMessage(), [
+            'correlation_id' => $produce->getCorrelationId(),
+            'reply_to'       => $produce->getQueue()
+        ]);
+        $channel->basic_publish($message, $produce->getExchange(), $produce->getRouteKey());
+
+        while(!$produce->getResponse()){
+            $channel->wait(null, false, $timeout);
+        }
+        
+        if(empty($produce->getResponse())) {
+            throw new Exception('rpc produce wait timeout!');
+        }
+
+        $channel->close();
+        return $produce->decodeMessage($produce->getResponse());
     }
 }
 ?>
