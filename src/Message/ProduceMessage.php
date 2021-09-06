@@ -39,7 +39,7 @@ class ProduceMessage extends Message implements ProduceMessageInterface
 
     public function payload(): string
     {
-        return $this->payload;
+        return $this->serialize();
     }
 
     public function serialize(): string

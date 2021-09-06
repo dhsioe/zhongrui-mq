@@ -54,11 +54,8 @@ class MqConnection
      * @return AMQPChannel
     */
     public function getConfirmChannel(): AMQPChannel
-    {
-        $id = uniqid();
-        
-        $channel = $this->getChannel($id);
-
+    {   
+        $channel = $this->getChannel();
         $channel->confirm_select();
         return $channel;
     }
