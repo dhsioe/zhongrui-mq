@@ -16,13 +16,13 @@ class Message implements MessageInterface
      * 消息类型
      * @var string
     */
-    protected $type;
+    protected $type = '';
 
     /**
      * 交换机
      * @var string
     */
-    protected $exchange;
+    protected $exchange = '';
 
     /**
      * 路由
