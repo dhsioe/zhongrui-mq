@@ -2,7 +2,7 @@
 /**
   * 支付类测试
   * @author: hsioe1111@gmail.com
-  * @Date: 
+  * @Date: 2021/09/06
   * @Description: 
 */
 namespace Zhongrui\Mq\Tests;
@@ -14,8 +14,8 @@ use Zhongrui\Mq\ZhongruiMq;
 class ZhongRuiMqTest extends \PHPUnit\Framework\TestCase
 {
     protected $config = [
-        'host' => '192.168.1.232',
-        'port' => 5672,
+        'host'     => '192.168.1.232',
+        'port'     => 5672,
         'username' => 'ttss',
         'password' => 'ttss'
     ];
