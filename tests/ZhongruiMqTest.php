@@ -7,6 +7,7 @@
 */
 namespace Zhongrui\Mq\Tests;
 
+use Zhongrui\Mq\Example\RpcDemoMessage;
 use Zhongrui\Mq\Example\UpdateMessage;
 use Zhongrui\Mq\ZhongruiMq;
 
@@ -29,6 +30,18 @@ class ZhongRuiMqTest extends \PHPUnit\Framework\TestCase
         $message = new UpdateMessage("1");
         $rv = $mq->produce($message, true);
         $this->assertTrue($rv);
+    }
+
+    /**
+     * RPC生产者
+     * @group ZhongruiMq
+    */
+    public function testRpcProduce()
+    {
+        $mq = new ZhongruiMq($this->config);
+        $message = new RpcDemoMessage('1,2');
+        $rv = $mq->rpcProduce($message, 2);
+        $this->assertIsArray($rv);
     }
 }
 ?>
