@@ -9,7 +9,7 @@
 # 使用Composer安装 `zhongrui-mq`
 
 ```shell
-composer require "zhongrui-mq" ^1.0
+composer require "zhongrui/mq" ^1.0
 ```
 
 
