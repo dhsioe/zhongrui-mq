@@ -53,7 +53,7 @@ class ZhongruiMq
         try {
             $channel = $confirm? $this->factory->getConfirmChannel():
                                  $this->factory->getChannel();
-            $channel->exchange_declare($produce->getExchange(), $produce->getType(), false, false, false);
+            $channel->exchange_declare($produce->getExchange(), $produce->getType(), false, true, false);
             $channel->basic_publish($message, $produce->getExchange(), $produce->getRouteKey());
             $channel->set_ack_handler(function () use (&$result){
                  $result = true;
